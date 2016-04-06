@@ -1,6 +1,6 @@
 #### How to run
-- Dowload and install VirtualBox @ (VirtualBox Downloads)[https://www.virtualbox.org/wiki/Downloads]
-- Download and install Vagrant @ (Vagrant Downloads)[https://www.vagrantup.com/downloads.html]
+- Dowload and install VirtualBox @ [VirtualBox Downloads](https://www.virtualbox.org/wiki/Downloads)
+- Download and install Vagrant @ [Vagrant Downloads](https://www.vagrantup.com/downloads.html)
 - In the root directory of the project, run:
 ```bash
 > vagrant up
