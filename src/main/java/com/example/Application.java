@@ -2,6 +2,8 @@ package com.example;
 
 import com.example.core.ssh.client.SSHClient;
 import com.example.core.ssh.client.impl.JSchSSHClient;
+import com.example.services.explorer.Explorer;
+import com.example.services.explorer.impl.LinuxExplorer;
 import com.jcraft.jsch.JSch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +27,11 @@ public class Application extends WebMvcConfigurerAdapter {
     @Bean
     public JSch jSch() {
         return new JSch();
+    }
+
+    @Bean
+    public Explorer explorer() {
+        return new LinuxExplorer(jSch(), sshClient());
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.example.services.explorer;
 
+import java.util.List;
+
 /**
  * Author: ddubson
  */
 public interface Explorer {
-    String listDaemons();
+    List<String> listDaemons();
 }
