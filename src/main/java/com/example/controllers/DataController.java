@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -16,7 +15,7 @@ import java.util.*;
 @RestController
 public class DataController {
     @RequestMapping("/host/init.d")
-    public List<String> getData() throws Exception {
+    public List<String> getInitD() throws Exception {
         JSch jSch = new JSch();
         Session session = jSch.getSession("vagrant", "192.168.33.10", 22);
         session.setPassword("vagrant");
@@ -25,11 +24,10 @@ public class DataController {
         session.setConfig(config);
         String command = "ls /etc/init.d/";
         session.connect();
-        ChannelExec channel= (ChannelExec) session.openChannel("exec");
-        channel.setCommand("ls /etc/init.d/");
+        ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        channel.setCommand(command);
 
         channel.setInputStream(null);
-        InputStream in = channel.getInputStream();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         channel.setOutputStream(stream);
         channel.connect(10000);
@@ -53,5 +51,40 @@ public class DataController {
         channel.disconnect();
         session.disconnect();
         return Arrays.asList(arr);
+    }
+
+    @RequestMapping("/host/cpuinfo")
+    public Map<String, String> getCPUInfo() throws Exception {
+        JSch jSch = new JSch();
+        Session session = jSch.getSession("vagrant", "192.168.33.10", 22);
+        session.setPassword("vagrant");
+        Properties config = new java.util.Properties();
+        config.put("StrictHostKeyChecking", "no");
+        session.setConfig(config);
+        String command = "cat /proc/cpuinfo";
+        session.connect();
+        ChannelExec channel = (ChannelExec) session.openChannel("exec");
+        channel.setCommand(command);
+
+        channel.setInputStream(null);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        channel.setOutputStream(stream);
+        channel.connect(10000);
+
+        channel.disconnect();
+        session.disconnect();
+        String[] arr = new String(stream.toByteArray()).split("\n");
+        Map<String, String> kvs = new HashMap<>();
+        for (String kv : arr) {
+            String[] keyValue = kv.split("\\:");
+            String value = "";
+            if (keyValue.length > 1) {
+                value = keyValue[1].trim();
+            }
+
+            kvs.put(keyValue[0].trim(), value);
+        }
+
+        return kvs;
     }
 }
