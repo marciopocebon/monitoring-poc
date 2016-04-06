@@ -1,0 +1,25 @@
+body {
+    padding-top: 80px;
+}
+
+.panel-body {
+    width: 40em;
+    padding: 5px 10px 5px 10px;
+}
+
+.panel-title {
+    cursor: pointer;
+}
+
+.panel {
+    margin-bottom: 10px;
+}
+
+.panel-heading {
+    padding: 5px 10px;
+}
+
+.nav-pills {
+    width: 100%;
+    padding-bottom: 10px;
+}
